@@ -10,7 +10,7 @@ import {
   WIDGET_KEY,
 } from "./constants.js";
 import { badge } from "./render.js";
-import { safeActivity, safeAgent, safeTool } from "./safety.js";
+import { safeAgent, safeTool } from "./safety.js";
 import {
   activityFromStatus,
   applyStatusSnapshot,
@@ -127,8 +127,10 @@ export default function registerVisualAgents(pi) {
     if (typeof result?.agent === "string") run.role = safeAgent(result.agent, run.role);
     if (progress?.status === "running") run.state = "running";
 
-    const currentTool = safeTool(progress?.currentTool);
-    run.activity = currentTool ? `Using ${currentTool}` : safeActivity(progress?.currentTool);
+    if (typeof progress?.currentTool === "string") {
+      const currentTool = safeTool(progress.currentTool);
+      run.activity = currentTool ? `Using ${currentTool}` : "Subagent activity";
+    }
     redraw();
   });
 

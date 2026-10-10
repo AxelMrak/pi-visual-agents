@@ -1,7 +1,7 @@
 {
   "name": "pi-visual-agents",
-  "version": "0.1.0",
-  "description": "Safe IBM-90s status badges and workflow child rows for Pi subagents",
+  "version": "0.2.0",
+  "description": "Safe visual status badges and workflow child rows for Pi subagents",
   "type": "module",
   "license": "MIT",
   "author": "Axel Mrak",
@@ -19,11 +19,15 @@
     "pi-coding-agent",
     "extension",
     "subagents",
-    "tui"
+    "agents",
+    "tui",
+    "observability"
   ],
   "files": [
     "index.js",
     "render.js",
+    "src/",
+    "assets/",
     "README.md",
     "LICENSE",
     "package.json"
@@ -31,15 +35,17 @@
   "pi": {
     "extensions": [
       "./index.js"
-    ]
+    ],
+    "image": "https://raw.githubusercontent.com/AxelMrak/pi-visual-agents/main/assets/logo.png"
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",
     "@earendil-works/pi-tui": "*"
   },
   "scripts": {
-    "test": "bun render.test.js && bun lifecycle.test.js",
-    "check": "node --check index.js && node --check render.js && node --check render.test.js && node --check lifecycle.test.js",
-    "pack:check": "npm pack --dry-run"
+    "test": "bun render.test.js && bun lifecycle.test.js && bun package.test.js",
+    "check": "node --check index.js && node --check render.js && node --check src/constants.js && node --check src/extension.js && node --check src/render.js && node --check src/safety.js && node --check src/status.js && node --check render.test.js && node --check lifecycle.test.js && node --check package.test.js",
+    "pack:check": "npm pack --dry-run",
+    "prepublishOnly": "npm test && npm run check && npm run pack:check"
   }
 }

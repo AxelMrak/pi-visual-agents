@@ -80,10 +80,19 @@ Malformed or unfamiliar child states stay explicit instead of being guessed as a
 
 Captured from the renderer sandbox: [`demo/safe-unknown.txt`](demo/safe-unknown.txt).
 
-Regenerate the captures with:
+### Animated sandbox demo
+
+![pi-visual-agents animated demo](demo/pi-visual-agents-demo.gif)
+
+The same capture is available as [MP4 video](demo/pi-visual-agents-demo.mp4). It shows a running researcher, a workflow with mixed child states, safe `UNKNOWN` handling, and completion. The frames are generated from local fixtures; no live prompts, credentials, network calls, or agent execution are involved.
+
+Regenerate the text and video captures with:
 
 ```bash
 node demo/capture.mjs
+node demo/video.mjs
+# Convert the generated demo/.frames/*.svg files to PNG with ImageMagick,
+# then encode demo/pi-visual-agents-demo.mp4 and .gif with ffmpeg.
 ```
 
 ## Development

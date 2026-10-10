@@ -1,0 +1,4 @@
+⟦ • WORKFLOW ⟧  ◓ RUNNING · 00:00                                              TYPE /subagents-fleet
+  ✓ REVIEWER · ◓ RUNNING — Review visual agent safety
+  ⌁ WORKER · ✓ DONE — Worker step
+  ⌖ SCOUT · ! ERROR — Scout step

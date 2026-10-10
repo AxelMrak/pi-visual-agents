@@ -43,15 +43,59 @@ pi install /Users/axelmrak/.pi/agent/extensions/pi-visual-agents
 
 Restart Pi after installation or package updates so the extension module is loaded from the new package.
 
+## Use cases
+
+### Scan one delegated run
+
+A single active run shows its role, state, elapsed time, and a safe activity label:
+
+```text
+⟦ ⌕ RESEARCHER ⟧  ◐ RUNNING · 00:00
+Read render.js
+```
+
+Captured from the renderer sandbox: [`demo/single-run.txt`](demo/single-run.txt).
+
+### Monitor a workflow
+
+Workflow children appear beneath the parent with their own role and terminal state. The native FleetView entry point is shown as typing guidance:
+
+```text
+⟦ • WORKFLOW ⟧  ◓ RUNNING · 00:00                                              TYPE /subagents-fleet
+  ✓ REVIEWER · ◓ RUNNING — Review visual agent safety
+  ⌁ WORKER · ✓ DONE — Worker step
+  ⌖ SCOUT · ! ERROR — Scout step
+```
+
+Captured from the renderer sandbox: [`demo/workflow-children.txt`](demo/workflow-children.txt).
+
+### Handle incomplete status safely
+
+Malformed or unfamiliar child states stay explicit instead of being guessed as active:
+
+```text
+⟦ • WORKFLOW ⟧  ◐ RUNNING · 00:00
+  • SUBAGENT · ? UNKNOWN — Workflow task
+```
+
+Captured from the renderer sandbox: [`demo/safe-unknown.txt`](demo/safe-unknown.txt).
+
+Regenerate the captures with:
+
+```bash
+node demo/capture.mjs
+```
+
 ## Development
 
 ```bash
-bun test
+bun render.test.js
+bun lifecycle.test.js
 npm run check
 npm run pack:check
 ```
 
-The focused tests cover rendering, lifecycle transitions, workflow child schema validation, width-safe truncation, and prompt/tool-detail sanitization.
+The focused tests cover rendering, lifecycle transitions, workflow child schema validation, width-safe truncation, and prompt/tool-detail sanitization. The capture script runs only local fixtures and does not start Pi, call agents, or access external services.
 
 ## Privacy and safety
 

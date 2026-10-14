@@ -95,6 +95,13 @@ try {
   } finally {
     fs.readFileSync = originalReadFileSync;
   }
+  fire("tool_execution_start", { toolName: "subagent", toolCallId: "async-end-terminal", args: { agent: "reviewer" } });
+  fire("tool_execution_end", { toolCallId: "async-end-terminal", result: { details: { state: "completed", asyncDir: "/virtual/async-end-terminal", runId: "async-end-terminal-run" } } });
+  assert.match(visibleLines(), /REVIEWER.*DONE/, "tool execution terminal state wins when artifact directory is present");
+  fire("tool_execution_start", { toolName: "subagent", toolCallId: "async-result-terminal", args: { agent: "worker" } });
+  fire("tool_result", { toolName: "subagent", toolCallId: "async-result-terminal", details: { results: [{ status: "completed" }], asyncDir: "/virtual/async-result-terminal", runId: "async-result-terminal-run" } });
+  assert.match(visibleLines(), /WORKER.*DONE/, "tool result terminal state wins when artifact directory is present");
+
   now += 4_000;
   fire("tool_result", { toolName: "subagent", toolCallId: "terminal-result", details: { state: "complete" } });
   assert.match(visibleLines(), /DONE · 00:04/, "terminal duration should freeze at completion");

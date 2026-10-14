@@ -1,6 +1,6 @@
 {
   "name": "pi-visual-agents",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Safe visual status badges and workflow child rows for Pi subagents",
   "type": "module",
   "license": "MIT",

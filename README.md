@@ -41,7 +41,7 @@ pi install git:github.com/AxelMrak/pi-visual-agents
 For reproducible installs, pin a release tag:
 
 ```bash
-pi install git:github.com/AxelMrak/pi-visual-agents@v0.2.0
+pi install git:github.com/AxelMrak/pi-visual-agents@v0.2.1
 ```
 
 Restart Pi after installation or package updates so the extension module is loaded from the updated package.

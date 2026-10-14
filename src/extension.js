@@ -144,16 +144,17 @@ export default function registerVisualAgents(pi) {
     if (asyncDir) {
       run.asyncDir = asyncDir;
       run.runId = details.runId || path.basename(asyncDir);
-      return;
     }
-    if (run.asyncDir) return;
 
     const result = details?.results?.[0];
-    const finalState = statusState(result?.status || details?.state || details?.status);
+    const status = result?.status || details?.state || details?.status;
+    const finalState = statusState(status);
     if (isTerminalState(finalState)) {
-      markTerminal(run, finalState, activityFromStatus({ state: result?.status || details?.state || details?.status }));
+      markTerminal(run, finalState, activityFromStatus({ state: status }));
     } else if (event.isError) {
       markTerminal(run, "error", "Subagent failed");
+    } else if (run.asyncDir) {
+      return;
     }
     redraw();
   });
@@ -169,11 +170,12 @@ export default function registerVisualAgents(pi) {
     if (asyncDir) {
       run.asyncDir = asyncDir;
       run.runId = details.runId || path.basename(asyncDir);
-    } else {
-      const finalState = statusState(details?.state || details?.status);
-      if (isTerminalState(finalState)) {
-        markTerminal(run, finalState, activityFromStatus({ state: details?.state || details?.status }));
-      }
+    }
+
+    const status = details?.results?.[0]?.status || details?.state || details?.status;
+    const finalState = statusState(status);
+    if (isTerminalState(finalState)) {
+      markTerminal(run, finalState, activityFromStatus({ state: status }));
     }
     poll();
   });
